@@ -60,7 +60,7 @@ Setup the following properties:
  * host localhost
  * port 5672
  * virtualPath /
-It is needed to duplicate properties in plugin and connection factory settings. 
+It is needed to duplicate properties in plugin and connection factory settings. Use the following [https://cwiki.apache.org/qpid/hermesjms.html instructions] for more details.
 Plugin properties are used to auto discover destinations and connection factory properties are used to view and send messages.
 Try to auto discover destinations. The destination with name, like GUID used for QMF communication and should be auto-deleted.
 I'm not sure, may be HermesJms restart required.
