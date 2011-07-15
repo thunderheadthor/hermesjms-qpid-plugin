@@ -1,9 +1,9 @@
 = This is short description of Apache Qpid (http://qpid.apache.org/) plugin for HermesJms (http://www.hermesjms.com/). =
 
 It consists of:
-* Description of Apache Qpid features
-* How to enable it in the HermesJms 1.14 trunk
-* Description of some limitations
+ * Description of Apache Qpid features
+ * How to enable it in the HermesJms 1.14 trunk
+ * Description of some limitations
 
 
 == Apache Qpid features ==
