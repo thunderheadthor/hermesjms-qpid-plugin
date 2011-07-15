@@ -1,0 +1,66 @@
+This is short description of Apache Qpid (http://qpid.apache.org/) plugin for HermesJms (http://www.hermesjms.com/). 
+It consists of:
+- Description of Apache Qpid features
+- How to enable it in the HermesJms 1.14 trunk
+- Description of some limitations
+
+
+* Apache Qpid features
+Due to https://issues.apache.org/jira/browse/QPID-3302 it uses Apache Qpid trunk build (aka 0.11 and build to version 0.13)
+It works with c++ broker version 0.8 and I suppose it should work with further versions as well.
+Many thanks to
+- Gordon Sim
+- Fraser Adams
+from Qpid mail list (users@qpid.apache.org) for help
+
+AMQP define some kind of objects, and the plugin works only with queues. 
+It is ready to use such Qpid things as exchanges, bindings and so on. I don't know how to display them in Hermes.
+
+The following features should work:
+- destination auto discovery
+- destination properties
+- message browsing, message changing and sending.
+- message backuping to local store
+
+
+* How-to enable it in the HermesJms
+Edit hermes.jar\hermes\impl\confighelper.properties :
+- add to the end of the property admin.factories one more value ,ru.troika.cto.hermes.plugin.QpidAdminFactory
+- add one more property ru.troika.cto.hermes.plugin.QpidAdminFactory=hermes-qpid-plugin-0.1.0-SNAPSHOT.jar,Qpid
+
+Copy hermes-qpid-plugin-0.1.0-SNAPSHOT.jar to $HERMES_HOME/lib
+
+Enable BURL for Qpid. To do it add -Dqpid.dest_syntax="BURL" as java param. I have done it by ediditg $HERMES_HOME/bin/hermes.bat
+start "HermesJMS" "%JAVA_HOME%\bin\javaw" -XX:NewSize=256m -Xmx1024m -Dhermes.home="%HERMES_HOME%" %HERMES_OPTS% -Dlog4j.configuration="file:%HERMES_HOME%\bin\log4j.props" -Dsun.java2d.noddraw=true -Dhermes="%HERMES_CONFIG%\hermes-config.xml" -Dhermes.libs="%HERMES_LIBS%" -Djava.compiler=NONE  -Dqpid.dest_syntax="BURL" hermes.browser.HermesBrowser
+
+Place somewhere on the disc the following libs (aka provider libs):
+backport-util-concurrent-2.2.jar
+geronimo-jms_1.1_spec-1.0.jar
+mina-core-1.0.1.jar
+mina-filter-ssl-1.0.1.jar
+qpid-all.jar
+qpid-client-0.13.jar
+qpid-common-0.13.jar
+slf4j-api-1.6.1.jar
+slf4j-log4j12-1.6.1.jar
+
+
+Run HermesJms. Create new provider with name "qpid", and set the libraries to provider libs stored before, select rescan.
+In the session tab select loader "qpid", select plugin "Qpid".
+In plugin properties add brokerUrl property. For example
+amqp://guest:guest@/?brokerlist='tcp://localhost:5672'
+In Connection Factory properties select org.apache.qpid.client.AMQConnectionFactory
+Setup the following properties:
+- connectionURL amqp://guest:guest@/?brokerlist='tcp://localhost:5672'
+- host localhost
+- port 5672
+- virtualPath /
+It is needed to duplicate properties in plugin and connection factory settings. 
+Plugin properties are used to auto discover destinations and connection factory properties are used to view and send messages.
+Try to auto discover destinations. The destination with name, like GUID used for QMF communication and should be auto-deleted.
+I'm not sure, may be HermesJms restart required.
+
+
+* Some limitations
+- only BURL works.
+- Qpid API from trunk (0.11)
