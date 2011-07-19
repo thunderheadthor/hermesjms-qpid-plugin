@@ -8,9 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import hermes.Hermes;
 import hermes.config.DestinationConfig;
-import hermes.ext.qpid.QmfTypes;
-import hermes.ext.qpid.QpidAdmin;
-import hermes.ext.qpid.QpidManager;
 import hermes.ext.qpid.qmf.QMFObject;
 
 import java.util.ArrayList;
@@ -40,7 +37,7 @@ public class QpidAdminTest {
         QpidAdmin qpidAdmin = new QpidAdmin(hermes, qpidManager);
 
         final List<Map<String, ?>> data = createFakeData(queueName, depthExpected);
-        when(qpidManager.<Map<String, ?>>getObjects(QmfTypes.QUEUE)).thenReturn(data);
+        when(qpidManager.<Map<String, ?>>getObjects(QmfType.QUEUE)).thenReturn(data);
 
         final DestinationConfig destinationConfig = mock(DestinationConfig.class);
         when(destinationConfig.getName()).thenReturn(queueName);
@@ -84,7 +81,7 @@ public class QpidAdminTest {
         final String queueName = "testDiscoverDestinationConfigsQueue";
         final long depthExpected = 10;
         final List<Map<String, ?>> data = createFakeData(queueName, depthExpected);
-        when(qpidManager.<Map<String, ?>>getObjects(QmfTypes.QUEUE)).thenReturn(data);
+        when(qpidManager.<Map<String, ?>>getObjects(QmfType.QUEUE)).thenReturn(data);
 
         final QpidAdmin qpidAdminSpy = spy(qpidAdmin);
         final DestinationConfig destinationConfig = new DestinationConfig();
@@ -105,7 +102,7 @@ public class QpidAdminTest {
         String queueName = "testGetStatisticsQueue";
         long depthExpected = 15;
         final List<Map<String, ?>> data = createFakeData(queueName, depthExpected);
-        when(qpidManager.<Map<String, ?>>getObjects(QmfTypes.QUEUE)).thenReturn(data);
+        when(qpidManager.<Map<String, ?>>getObjects(QmfType.QUEUE)).thenReturn(data);
 
         QpidAdmin qpidAdmin = new QpidAdmin(hermes, qpidManager);
         final DestinationConfig destinationConfig = mock(DestinationConfig.class);

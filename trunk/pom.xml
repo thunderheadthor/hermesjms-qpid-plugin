@@ -14,6 +14,7 @@
         <slf4j.version>1.6.1</slf4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <qpid.version>0.13</qpid.version>
+        <jide.version>2.7.6</jide.version>
     </properties>
 
     <build>
@@ -113,14 +114,14 @@
         <dependency>
             <groupId>com.jidesoft</groupId>
             <artifactId>jide-action</artifactId>
-            <version>2.7.6</version>
+            <version>${jide.version}</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/hermes-patched/jide-action.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.jidesoft</groupId>
             <artifactId>jide-dock</artifactId>
-            <version>2.7.6</version>
+            <version>${jide.version}</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/hermes-patched/jide-dock.jar</systemPath>
         </dependency>
