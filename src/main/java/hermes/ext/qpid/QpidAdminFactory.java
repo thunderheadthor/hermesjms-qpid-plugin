@@ -15,12 +15,12 @@
  */
 package hermes.ext.qpid;
 
-import java.util.Hashtable;
-import java.util.Properties;
-
 import hermes.Hermes;
 import hermes.HermesAdmin;
 import hermes.HermesAdminFactory;
+
+import java.util.Hashtable;
+import java.util.Properties;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -56,7 +56,7 @@ public class QpidAdminFactory
      * @param brokerUrl - qpid broker url
      * @return Hashtable - for Context building
      */
-    protected static Hashtable<?, ?> buildEnv(String brokerUrl) {
+    static Hashtable<?, ?> buildEnv(String brokerUrl) {
 
         Properties props = new Properties();
         props.setProperty(Context.INITIAL_CONTEXT_FACTORY, QPID_CONTEXT_FACTORY);
@@ -65,6 +65,9 @@ public class QpidAdminFactory
         return props;
     }
 
+    /**
+     * TODO test it.
+     */
     private QpidAdmin createHermesAdmin(Hermes hermes)
         throws NamingException, JMSException {
 

@@ -11,11 +11,11 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License. * 
+ * limitations under the License.
+ *
  */
 package hermes.ext.qpid.qmf;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -49,12 +49,10 @@ public class QMFObject {
 
     /**
      * @return name property.
-     * @throws UnsupportedEncodingException - if fail to convert from bytes to @see QMFObject.UTF8
      */
-    public String getName()
-        throws UnsupportedEncodingException {
+    public String getName() {
 
-        return new String((byte[]) properties.get(NAME), UTF8);
+        return new String((byte[]) properties.get(NAME), Charset.forName(UTF8));
     }
 
     /**

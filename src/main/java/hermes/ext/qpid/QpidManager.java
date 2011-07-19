@@ -48,9 +48,9 @@ import org.apache.qpid.transport.codec.BBDecoder;
  */
 public class QpidManager {
 
+    static final String HOST = "host";
 
     private static final String BROKER = "broker";
-    public static final String HOST = "host";
     private static final String QMF2 = "qmf2";
     private static final String X_AMQP_0_10_APP_ID = "x-amqp-0-10.app-id";
     private static final String OBJECT = "OBJECT";
@@ -116,7 +116,7 @@ public class QpidManager {
      * @return a List of QMF Objects describing that class
      * @throws JMSException - if errors with qpid communication.
      */
-    public <T> List<T> getObjects(QmfTypes qmfSchema)
+    public <T> List<T> getObjects(QmfType qmfSchema)
         throws JMSException {
 
         List<T> objects = Collections.emptyList();
@@ -139,18 +139,18 @@ public class QpidManager {
                 log.info("Received response in incorrect format: " + response);
             }
         } else {
-            log.info("No response received");
+            log.info("No response received in [" + TIMEOUT + "] ms.");
         }
         return objects;
     }
 
-    @SuppressWarnings("unchecked")
     /**
      * JMS QMF returns amqp/list types as a BytesMessage this method decodes
      * that into a Java List
      *
      * Taken from Gordon Sim's initial JMS QMF Example.
      */
+    @SuppressWarnings("unchecked")
     private static <T> List<T> decode(BytesMessage msg)
         throws JMSException {
 

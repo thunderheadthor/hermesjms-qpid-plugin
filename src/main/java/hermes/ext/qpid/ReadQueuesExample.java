@@ -43,13 +43,13 @@ public class ReadQueuesExample {
         try {
 
             String brokerUrl = BROKER_URL;
-            QmfTypes schema = QmfTypes.QUEUE;
+            QmfType schema = QmfType.QUEUE;
 
             if (args.length > 0) {
                 brokerUrl = args[0];
             }
             if (args.length > 1) {
-                schema = QmfTypes.valueOf(args[1]);
+                schema = QmfType.valueOf(args[1]);
             }
 
             QpidManager qpidManager = new QpidManager(QpidAdminFactory.buildEnv(brokerUrl));

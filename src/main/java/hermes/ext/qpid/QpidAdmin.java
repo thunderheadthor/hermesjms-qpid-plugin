@@ -17,7 +17,6 @@ package hermes.ext.qpid;
 
 import hermes.Domain;
 import hermes.Hermes;
-import hermes.HermesException;
 import hermes.browser.HermesBrowser;
 import hermes.config.DestinationConfig;
 import hermes.config.PropertyConfig;
@@ -25,10 +24,6 @@ import hermes.config.PropertySetConfig;
 import hermes.ext.HermesAdminSupport;
 import hermes.ext.qpid.qmf.QMFObject;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,32 +65,28 @@ public class QpidAdmin
 
         super(hermes);
         this.qpidManager = qpidManager;
+        if (null == qpidManager) {
+            throw new IllegalArgumentException("The qpidManager is null. It is required for QpidAdmin.");
+        }
     }
 
     @Override
     public int getDepth(DestinationConfig destination)
-        throws JMSException {
+            throws JMSException {
+        int result = 0;
+        String name = destination.getName();
+        log.info("getDepth destination name=[" + name + "]");
 
-        try {
+        List<Map<String, ?>> objects = qpidManager.getObjects(QmfType.QUEUE);
+        for (Map<String, ?> i : objects) {
 
-            int result = 0;
-            String name = destination.getName();
-            log.info("getDepth destination name=[" + name + "]");
+            QMFObject qmfObject = new QMFObject(i);
+            if (name.equals(qmfObject.getName())) {
 
-            List<Map<String, ?>> objects = qpidManager.getObjects(QmfTypes.QUEUE);
-            for (Map<String, ?> i : objects) {
-
-                QMFObject qmfObject = new QMFObject(i);
-                if (name.equals(qmfObject.getName())) {
-
-                    return qmfObject.getDepth().intValue();
-                }
+                return qmfObject.getDepth().intValue();
             }
-            return result;
-        } catch (UnsupportedEncodingException e) {
-
-            throw new HermesException(e);
         }
+        return result;
     }
 
     @Override
@@ -105,42 +96,36 @@ public class QpidAdmin
         qpidManager.close();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Collection<DestinationConfig> discoverDestinationConfigs()
             throws JMSException {
 
         Collection<DestinationConfig> rval = new HashSet<DestinationConfig>();
 
-        try {
+        List<Map<String, ?>> objects = qpidManager.getObjects(QmfType.QUEUE);
+        for (Map<String, ?> i : objects) {
 
-            List<Map<String, ?>> objects = qpidManager.getObjects(QmfTypes.QUEUE);
-            for (Map<String, ?> i : objects) {
+            QMFObject qmfObject = new QMFObject(i);
+            String queueName = qmfObject.getName();
+            DestinationConfig destinationConfig = buildDestinationConfig(queueName);
+            PropertySetConfig propertySetConfig = new PropertySetConfig();
 
-                QMFObject qmfObject = new QMFObject(i);
-                String queueName = qmfObject.getName();
-                DestinationConfig destinationConfig = buildDestinationConfig(queueName);
-                PropertySetConfig propertySetConfig = new PropertySetConfig();
+            for (String key : qmfObject.keySet()) {
 
-                for (String key : qmfObject.keySet()) {
-
-                    PropertyConfig propertyConfig = new PropertyConfig();
-                    propertyConfig.setName(key);
-                    propertyConfig.setValue(qmfObject.getStringValue(key));
-                    propertySetConfig.getProperty().add(propertyConfig);
-                }
-
-                destinationConfig.setProperties(propertySetConfig);
-                rval.add(destinationConfig);
+                PropertyConfig propertyConfig = new PropertyConfig();
+                propertyConfig.setName(key);
+                propertyConfig.setValue(qmfObject.getStringValue(key));
+                propertySetConfig.getProperty().add(propertyConfig);
             }
-        } catch (UnsupportedEncodingException e) {
-            throw new HermesException(e);
+
+            destinationConfig.setProperties(propertySetConfig);
+            rval.add(destinationConfig);
         }
         return rval;
     }
 
     /**
-     * Hide @see HermesBrowser usage for testing purpose.
+     * Hide {@link HermesBrowser} usage for testing purpose.
      *
      * @param queueName - destination name.
      * @return DestinationConfig - hermes DestinationConfig
@@ -156,26 +141,18 @@ public class QpidAdmin
         throws JMSException {
 
         Map<String, Object> rval = new HashMap<String, Object>();
-        try {
+        List<Map<String, ?>> objects = qpidManager.getObjects(QmfType.QUEUE);
+        for (Map<String, ?> i : objects) {
 
-            List<Map<String, ?>> objects = qpidManager.getObjects(QmfTypes.QUEUE);
-            for (Map<String, ?> i : objects) {
-
-                @SuppressWarnings("unchecked")
-                QMFObject qmfObject = new QMFObject(i);
-                String name = qmfObject.getName();
-                if (destination.getName().equals(name)) {
-                    for (String key : qmfObject.keySet()) {
-                        rval.put(key, qmfObject.getStringValue(key));
-                    }
-                    return rval;
+            QMFObject qmfObject = new QMFObject(i);
+            String name = qmfObject.getName();
+            if (destination.getName().equals(name)) {
+                for (String key : qmfObject.keySet()) {
+                    rval.put(key, qmfObject.getStringValue(key));
                 }
+                return rval;
             }
-        } catch (UnsupportedEncodingException e) {
-            throw new HermesException(e);
-
         }
-
         return rval;
     }
 

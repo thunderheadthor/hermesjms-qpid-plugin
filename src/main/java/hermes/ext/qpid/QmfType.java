@@ -22,14 +22,14 @@ package hermes.ext.qpid;
  * Represents qpid managed objec types.
  * @author Barys Ilyushonak
  */
-public enum QmfTypes {
+public enum QmfType {
 
     QUEUE("queue"), BINDING("binding"), EXCHANGE("exchange"), CONNECTION("connection")
     , SESSION("session"), SUBSCRIPTION("subscription"); 
 
     private String value;
 
-    private QmfTypes(String value) {
+    private QmfType(String value) {
         this.value = value;
     }
 

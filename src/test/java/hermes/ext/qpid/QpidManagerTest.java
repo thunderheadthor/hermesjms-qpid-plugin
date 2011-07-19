@@ -1,6 +1,6 @@
 package hermes.ext.qpid;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
@@ -11,9 +11,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import hermes.ext.qpid.QmfTypes;
-import hermes.ext.qpid.QpidManager;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -37,8 +34,6 @@ import org.apache.qpid.transport.codec.BBEncoder;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class QpidManagerTest {
 
@@ -72,10 +67,10 @@ public class QpidManagerTest {
 
         Session session = mock(Session.class);
         when(connection.createSession(anyBoolean(), anyInt())).thenReturn(session);
-        
-        QpidManager manager = new QpidManager(props);
 
-        assertNotNull(mockContext);
+        new QpidManager(props);
+
+        //тестируем правильную работу конструктора
         verify(connectionFactory).createConnection();
         verify(connection).start();
         verify(session).createProducer(any(Destination.class));
@@ -134,7 +129,7 @@ public class QpidManagerTest {
         });
         
         QpidManager manager = new QpidManager(props);
-        List<Object> objects = manager.getObjects(QmfTypes.QUEUE);
+        List<Object> objects = manager.getObjects(QmfType.QUEUE);
 
         assertNotNull(objects);
         assertFalse(objects.isEmpty());
