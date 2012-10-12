@@ -1,5 +1,11 @@
 /**
- * Copyright (c) 2011 CJSC Investment Company "Troika Dialog", http://troika.ru
+ *
+ * Copyright (c) 2000-2013 CJSC "Sberbank CIB", www.sberbank-cib.ru
+ * All Rights Reserved.
+ *
+ */
+
+/**
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,17 +17,12 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License. * 
+ * limitations under the License.
  */
 package hermes.ext.qpid;
 
-import java.nio.ByteBuffer;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import org.apache.log4j.Logger;
+import org.apache.qpid.transport.codec.BBDecoder;
 
 import javax.jms.BytesMessage;
 import javax.jms.Connection;
@@ -36,9 +37,13 @@ import javax.jms.Session;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import org.apache.log4j.Logger;
-import org.apache.qpid.transport.codec.BBDecoder;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Hide qpid jms communication.
@@ -54,11 +59,11 @@ public class QpidManager {
     private static final String QMF2 = "qmf2";
     private static final String X_AMQP_0_10_APP_ID = "x-amqp-0-10.app-id";
     private static final String OBJECT = "OBJECT";
-    private static final String _WHAT = "_what";
+    private static final String WHAT = "_what";
     private static final String QMF_OPCODE = "qmf.opcode";
-    private static final String _QUERY_REQUEST = "_query_request";
-    private static final String _SCHEMA_ID = "_schema_id";
-    private static final String _CLASS_NAME = "_class_name";
+    private static final String QUERY_REQUEST = "_query_request";
+    private static final String SCHEMA_ID = "_schema_id";
+    private static final String CLASS_NAME = "_class_name";
 
     private static final int TIMEOUT = 10 * 1000;
 
@@ -123,12 +128,12 @@ public class QpidManager {
         MapMessage request = session.createMapMessage();
         request.setJMSReplyTo(responses);
         request.setStringProperty(X_AMQP_0_10_APP_ID, QMF2);
-        request.setStringProperty(QMF_OPCODE, _QUERY_REQUEST);
-        request.setString(_WHAT, OBJECT);
+        request.setStringProperty(QMF_OPCODE, QUERY_REQUEST);
+        request.setString(WHAT, OBJECT);
 
         Map<String, Object> schemaId = new HashMap<String, Object>();
-        schemaId.put(_CLASS_NAME, qmfSchema.getValue());
-        request.setObject(_SCHEMA_ID, schemaId);
+        schemaId.put(CLASS_NAME, qmfSchema.getValue());
+        request.setObject(SCHEMA_ID, schemaId);
 
         sender.send(request);
         Message response = receiver.receive(TIMEOUT);
@@ -175,3 +180,4 @@ public class QpidManager {
         }
     }
 }
+

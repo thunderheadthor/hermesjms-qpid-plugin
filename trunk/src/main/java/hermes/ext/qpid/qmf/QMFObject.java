@@ -1,6 +1,11 @@
 /**
- * Copyright (c) 2011 CJSC Investment Company "Troika Dialog", http://troika.ru
  *
+ * Copyright (c) 2000-2013 CJSC "Sberbank CIB", www.sberbank-cib.ru
+ * All Rights Reserved.
+ *
+ */
+
+/**
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,10 +34,29 @@ import java.util.Set;
  */
 public class QMFObject {
 
+    /**
+     * qmf promerty name.
+     */
     public static final String MSG_DEPTH = "msgDepth";
-    public static final String _VALUES = "_values";
+
+    /**
+     * qmf promerty name.
+     */
+    public static final String QMF_VALUES = "_values";
+
+    /**
+     * qmf promerty name.
+     */
     public static final String NAME = "name";
+
+    /**
+     * qmf promerty name.
+     */
     public static final String NANE_SUFFIX = "_name";
+
+    /**
+     * qmf promerty name.
+     */
     public static final String UTF8 = "UTF8";
 
     private Map<String, ?> properties;
@@ -44,7 +68,7 @@ public class QMFObject {
     @SuppressWarnings("unchecked")
     public QMFObject(Map<String, ?> data) {
 
-        properties = (Map<String, ?>) data.get(_VALUES);
+        properties = (Map<String, ?>) data.get(QMF_VALUES);
     }
 
     /**
@@ -118,3 +142,4 @@ public class QMFObject {
         return properties.keySet();
     }
 }
+
