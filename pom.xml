@@ -32,9 +32,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <configLocation>${basedir}/lib/checkstyle-1.2.xml</configLocation>
-                    <outputFileFormat>plain</outputFileFormat>
                     <failsOnError>true</failsOnError>
+                    <configLocation>http://maven.troika.ru/service/local/repositories/troika-release/content/ru/sberbank/cib/convention/checkstyle/1.2/checkstyle-1.2.xml</configLocation>
                 </configuration>
             </plugin>
             <plugin>
