@@ -1,5 +1,11 @@
 /**
- * Copyright (c) 2011 CJSC Investment Company "Troika Dialog", http://troika.ru
+ *
+ * Copyright (c) 2000-2013 CJSC "Sberbank CIB", www.sberbank-cib.ru
+ * All Rights Reserved.
+ *
+ */
+
+/**
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,7 +17,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License. * 
+ * limitations under the License.
  */
 package hermes.ext.qpid;
 
@@ -24,8 +30,30 @@ package hermes.ext.qpid;
  */
 public enum QmfType {
 
-    QUEUE("queue"), BINDING("binding"), EXCHANGE("exchange"), CONNECTION("connection")
-    , SESSION("session"), SUBSCRIPTION("subscription"); 
+    /**
+     * qmf scheman type name.
+     */
+    QUEUE("queue")
+    /**
+     * qmf scheman type name.
+     */
+    , BINDING("binding")
+    /**
+     * qmf scheman type name.
+     */
+    , EXCHANGE("exchange")
+    /**
+     * qmf scheman type name.
+     */
+    , CONNECTION("connection")
+    /**
+     * qmf scheman type name.
+     */
+    , SESSION("session")
+    /**
+     * qmf scheman type name.
+     */
+    , SUBSCRIPTION("subscription");
 
     private String value;
 
@@ -33,11 +61,6 @@ public enum QmfType {
         this.value = value;
     }
 
-    /**
-     * Return string value.
-     *
-     * @return value
-     */
     public String getValue() {
 
         return this.value;

@@ -1,4 +1,11 @@
 /**
+ *
+ * Copyright (c) 2000-2013 CJSC "Sberbank CIB", www.sberbank-cib.ru
+ * All Rights Reserved.
+ *
+ */
+
+/**
  * Copyright (c) 2011 CJSC Investment Company "Troika Dialog", http://troika.ru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,7 +18,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License. * 
+ * limitations under the License.
  */
 package hermes.ext.qpid;
 
@@ -19,13 +26,12 @@ import hermes.Hermes;
 import hermes.HermesAdmin;
 import hermes.HermesAdminFactory;
 
-import java.util.Hashtable;
-import java.util.Properties;
-
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.naming.Context;
 import javax.naming.NamingException;
+import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Hermes plugin admin factory implementation for qpid plugin.
@@ -36,10 +42,27 @@ import javax.naming.NamingException;
 public class QpidAdminFactory
     implements HermesAdminFactory {
 
-    private static String DEFAULT_URL = "amqp://guest:guest@clientid/test?brokerlist='tcp://localhost:5672'";
-    public static final String MANAGEMENT_BROKER_ADDR = "BURL:management-direct://qmf.default.direct//broker?routingkey='broker'";
+    private static String defaultUrl = "amqp://guest:guest@clientid/test?brokerlist='tcp://localhost:5672'";
+
+    /**
+     * jndi property name.
+     */
+    public static final String MANAGEMENT_BROKER_ADDR
+            = "BURL:management-direct://qmf.default.direct//broker?routingkey='broker'";
+
+    /**
+     * jndi property name.
+     */
     public static final String DESTINATION_BROKER = "destination.broker";
+
+    /**
+     * jndi property name.
+     */
     public static final String CONNECTIONFACTORY_HOST = "connectionfactory.host";
+
+    /**
+     * jndi property name.
+     */
     public static final String QPID_CONTEXT_FACTORY = "org.apache.qpid.jndi.PropertiesFileInitialContextFactory";
 
     private String brokerUrl;
@@ -73,7 +96,7 @@ public class QpidAdminFactory
 
         String url = brokerUrl;
         if (brokerUrl == null) {
-            url = DEFAULT_URL;
+            url = defaultUrl;
         }
         return new QpidAdmin(hermes, new QpidManager(buildEnv(url)));
     }

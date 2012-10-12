@@ -1,5 +1,11 @@
 /**
- * Copyright (c) 2011 CJSC Investment Company "Troika Dialog", http://troika.ru
+ *
+ * Copyright (c) 2000-2013 CJSC "Sberbank CIB", www.sberbank-cib.ru
+ * All Rights Reserved.
+ *
+ */
+
+/**
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,7 +17,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License. * 
+ * limitations under the License.
  */
 package hermes.ext.qpid;
 
@@ -19,7 +25,7 @@ import hermes.ext.qpid.qmf.QMFObject;
 
 import java.util.List;
 import java.util.Map;
-
+import java.util.logging.Logger;
 
 
 /**
@@ -28,10 +34,14 @@ import java.util.Map;
  * @author Gordon Slim
  * @author Barys Ilyushonak
  */
-public class ReadQueuesExample {
+public final class ReadQueuesExample {
 
-    private static final String BROKER_URL = "amqp://guest:guest@/?brokerlist='tcp://localhost:5672?" +
-        "tcp_nodelay='true''&connectdelay='5000'&retries='10'";
+    private static final String BROKER_URL = "amqp://guest:guest@/?brokerlist='tcp://localhost:5672?"
+            + "tcp_nodelay='true''&connectdelay='5000'&retries='10'";
+    private static Logger log = Logger.getLogger(ReadQueuesExample.class.getName());
+
+    private ReadQueuesExample() {
+    }
 
     /**
      *
@@ -58,12 +68,13 @@ public class ReadQueuesExample {
             for (Map<String, ?> i : objects) {
 
                 QMFObject qmfObject = new QMFObject(i);
-                System.out.println("the i=[" + qmfObject + "]");
+
+                log.info("the i=[" + qmfObject + "]");
             }
             qpidManager.close();
         } catch (Exception e) {
 
-            System.out.println("Exception occurred: " + e.toString());
+            log.info("Exception occurred: " + e.toString());
             e.printStackTrace();
         }
     }

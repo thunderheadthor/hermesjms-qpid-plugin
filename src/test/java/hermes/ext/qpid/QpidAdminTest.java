@@ -53,7 +53,7 @@ public class QpidAdminTest {
         final Map<String, Object> queueInfo = new HashMap<String, Object>();
         queueInfo.put(QMFObject.NAME, queueName.getBytes());
         queueInfo.put(QMFObject.MSG_DEPTH, depthExpected);
-        row.put(QMFObject._VALUES, queueInfo);
+        row.put(QMFObject.QMF_VALUES, queueInfo);
         data.add(row);
         return data;
     }
